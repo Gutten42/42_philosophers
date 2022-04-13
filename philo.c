@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:03:52 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/06 19:51:45 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/13 20:41:24 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int	main(int argc, char **argv)
 	pthread_mutex_t	mutex;
 	
 	set_gen_var(&gen_var, argc, argv);
+	
 	printf("Hi there world, I'm philo and I am going to create a new thread\n");
 	if (pthread_mutex_init(&mutex, NULL) != 0)
 		printf("Oh no! Something must've gone wrong at mutex init\n");

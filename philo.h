@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 14:53:33 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/06 19:48:38 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/13 20:27:19 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,12 @@ typedef struct s_gen
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				nr_of_meals;
-	pthread_mutex_t	print_right;
 }				t_gen;
 
 typedef struct s_phill
 {
 	int				index;
-	int				stat;
+	int				last_meal;
 	pthread_mutex_t	r_fork;
 	struct s_phill	*next;
 	struct s_phill	*prev;
