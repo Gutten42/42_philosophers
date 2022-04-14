@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:03:52 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/13 20:41:24 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/14 21:57:27 by vgutten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*thread_st(void *mutex)
+/* void	*thread_st(void *mutex)
 {
 	if (pthread_mutex_lock((pthread_mutex_t *)mutex) != 0)
 		perror("pthread_mutex_lock");
@@ -38,74 +38,46 @@ void	*thread_wt(void *mutex)
 	if (pthread_mutex_unlock((pthread_mutex_t *)mutex) != 0)
 		perror("pthread_mutex_unlock");
 	return (NULL);
-}
+} */
 
-int	phil_atoi(char *str)
+void	check_phils(t_phill *phil_list, t_gen *gen_var)
 {
-	long	ret;
+	int	ima;
 
-	ret = 0;
-	while (*str)
+	while(1)
 	{
-		if (!ft_isdigit(*str))
-			return (0);
-		ret = ret * 10 + (*str++ - '0');
-		if (ret > INT_MAX)
-			return (0);
-	}
-	return ((int)ret);
-}
-
-int	set_var(int *var, char *value_str)
-{
-	int	value;
-
-	value = phil_atoi(value_str);
-	if (value < 1)
-		return (0);
-	*var = value;
-	return (1);
-}
-
-void	set_gen_var(t_gen *gen_var, int argc, char **argv)
-{
-	char	*err;
-
-	err = NULL;
-	if (argc < 5)
-		err = "not enough arguments provided";
-	else if (argc > 6)
-		err = "too many arguments provided";
-	else if (!err && !set_var(&gen_var->nr_of_phil, argv[1]))
-		err = "incompatible number of philosophers provided";
-	else if (!err && !set_var(&gen_var->time_to_die, argv[2]))
-		err = "incompatible time to die provided";
-	else if (!err && !set_var(&gen_var->time_to_eat, argv[3]))
-		err = "incompatible time to eat provided";
-	else if (!err && !set_var(&gen_var->time_to_sleep, argv[4]))
-		err = "incompatible time to sleep provided";
-	else if (argc > 5 && !err && !set_var(&gen_var->nr_of_meals, argv[5]))
-		err = "incompatible number of times each philosopher must eat provided";
-	else
-		gen_var->nr_of_meals = 0;
-	if (err)
-	{
-		ft_putstr_fd("philo: error: ", STDERR_FILENO);
-		ft_putendl_fd(err, STDERR_FILENO);
-		exit(1);
+		ima = get_time(&gen_var->time);
+		if (phil_list->last_meal < ima - gen_var->time_to_die)
+		{
+			phil_list->dead = 1;
+			printf("%d %d died\n", ima, phil_list->index);
+			//pthread_join(phil_list->mind, NULL);
+			exit(0);
+		}
+		phil_list = phil_list->next;
+		if (phil_list->index == 1)
+			break ;
 	}
 }
 
 int	main(int argc, char **argv)
 {
 	t_gen			gen_var;
-	pthread_t		thread1;
+	t_phill			*phil_list;
+/* 	pthread_t		thread1;
 	pthread_t		thread2;
-	pthread_mutex_t	mutex;
+	pthread_mutex_t	mutex; */
 	
 	set_gen_var(&gen_var, argc, argv);
-	
-	printf("Hi there world, I'm philo and I am going to create a new thread\n");
+	gettimeofday(&gen_var.time, NULL);
+	pthread_mutex_init(&gen_var.print_right, NULL);
+	phil_list = release_the_phils(&gen_var);
+	while(1)
+	{
+		check_phils(phil_list, &gen_var);
+		usleep(gen_var.nr_of_phil);
+	}
+/* 	printf("Hi there world, I'm philo and I am going to create a new thread\n");
 	if (pthread_mutex_init(&mutex, NULL) != 0)
 		printf("Oh no! Something must've gone wrong at mutex init\n");
 	if (pthread_create(&thread2, NULL, thread_wt, &mutex) != 0)
@@ -115,5 +87,5 @@ int	main(int argc, char **argv)
 	pthread_join(thread1, NULL);
 	pthread_join(thread2, NULL);
 	if (pthread_mutex_destroy(&mutex) != 0)
-		printf("Oh no! Something must've gone wrong at mutex destry\n");
+		printf("Oh no! Something must've gone wrong at mutex destry\n"); */
 }

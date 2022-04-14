@@ -3,26 +3,33 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
+#    By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/06 14:55:20 by vguttenb          #+#    #+#              #
-#    Updated: 2022/04/06 19:40:31 by vguttenb         ###   ########.fr        #
+#    Updated: 2022/04/14 22:04:55 by vgutten          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
+THFLAG = -pthread
 
 SRCS = philo.c \
-		philo_utils.c
+		philo_utils.c \
+		get_time.c \
+		release_the_phils.c \
+		set_gen_var.c \
+		phil_func_log_nou.c \
+		log_state.c \
+		no_usleep.c
 
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS) Makefile
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+	$(CC) $(THFLAG) $(CFLAGS) -o $(NAME) $(OBJS)
 
 test: $(NAME)
 	./$(NAME)

@@ -44,6 +44,18 @@ void	ft_putendl_fd(char *s, int fd)
 	}
 }
 
+void	ft_bzero(void *memdir, size_t len)
+{
+	size_t	ind;
+
+	ind = 0;
+	while (ind < len)
+	{
+		*((char *)memdir + ind) = '\0';
+		ind++;
+	}
+}
+
 ////////////////
 
 void	ft_putchar_fd(char c, int fd)
