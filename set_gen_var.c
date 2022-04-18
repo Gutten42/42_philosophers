@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_gen_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:18 by vgutten           #+#    #+#             */
-/*   Updated: 2022/04/14 21:44:33 by vgutten          ###   ########.fr       */
+/*   Updated: 2022/04/18 16:12:13 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ void	set_gen_var(t_gen *gen_var, int argc, char **argv)
 		err = "incompatible time to eat provided";
 	else if (!err && !set_var(&gen_var->time_to_sleep, argv[4]))
 		err = "incompatible time to sleep provided";
-	else if (argc > 5 && !err && !set_var(&gen_var->nr_of_meals, argv[5]))
+	else if (argc > 5 && !err && !set_var(&gen_var->max_meals, argv[5]))
 		err = "incompatible number of times each philosopher must eat provided";
-	else
-		gen_var->nr_of_meals = 0;
+	else if (argc == 5)
+		gen_var->max_meals = 0;
 	if (err)
 	{
 		ft_putstr_fd("philo: error: ", STDERR_FILENO);

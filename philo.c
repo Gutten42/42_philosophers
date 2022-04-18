@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:03:52 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/14 21:57:27 by vgutten          ###   ########.fr       */
+/*   Updated: 2022/04/18 16:15:15 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	check_phils(t_phill *phil_list, t_gen *gen_var)
 		ima = get_time(&gen_var->time);
 		if (phil_list->last_meal < ima - gen_var->time_to_die)
 		{
-			phil_list->dead = 1;
-			printf("%d %d died\n", ima, phil_list->index);
+			gen_var->end = 1;
+			log_state(&gen_var->print_right, ima, phil_list->index, " died");
 			//pthread_join(phil_list->mind, NULL);
 			exit(0);
 		}
@@ -71,6 +71,7 @@ int	main(int argc, char **argv)
 	set_gen_var(&gen_var, argc, argv);
 	gettimeofday(&gen_var.time, NULL);
 	pthread_mutex_init(&gen_var.print_right, NULL);
+	gen_var.end = 0;
 	phil_list = release_the_phils(&gen_var);
 	while(1)
 	{

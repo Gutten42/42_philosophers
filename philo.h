@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 14:53:33 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/14 22:08:00 by vgutten          ###   ########.fr       */
+/*   Updated: 2022/04/18 16:11:37 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ typedef struct s_gen
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				nr_of_meals;
+	int				max_meals;
+	char			end;
 }				t_gen;
 
 typedef struct s_phill
@@ -41,10 +42,10 @@ typedef struct s_phill
 	pthread_t		mind;
 	int				index;
 	int				last_meal;
+	int				nr_meals;
 	pthread_mutex_t	l_fork;
 	t_gen			*gen_var;
 	struct s_phill	*next;
-	char			dead;
 }				t_phill;
 
 int		get_time(struct timeval *time);
@@ -61,5 +62,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_bzero(void *memdir, size_t len);
 void	ft_putchar_fd(char c, int fd);
+char	*ft_itoa(int n);
+size_t	ft_strlen(const char *str);
 
 #endif
