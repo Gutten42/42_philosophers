@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:03:52 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/18 16:15:15 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/19 12:43:01 by vgutten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,20 @@ void	*thread_wt(void *mutex)
 	return (NULL);
 } */
 
-void	check_phils(t_phill *phil_list, t_gen *gen_var)
+void	check_phils(t_phil *phil_list, t_gen *gen_var)
 {
 	int	ima;
 
 	while(1)
 	{
 		ima = get_time(&gen_var->time);
-		if (phil_list->last_meal < ima - gen_var->time_to_die)
+		if (phil_list->last_meal < ima - gen_var->t_die)
 		{
 			gen_var->end = 1;
-			log_state(&gen_var->print_right, ima, phil_list->index, " died");
+			pthread_mutex_unlock(&gen_var->pr_mutex);
+			pthread_mutex_destroy(&gen_var->pr_mutex);
+			printf("%d %d died\n", ima, phil_list->index);
+			usleep(1000000);
 			//pthread_join(phil_list->mind, NULL);
 			exit(0);
 		}
@@ -63,20 +66,22 @@ void	check_phils(t_phill *phil_list, t_gen *gen_var)
 int	main(int argc, char **argv)
 {
 	t_gen			gen_var;
-	t_phill			*phil_list;
+	t_phil			*phil_list;
 /* 	pthread_t		thread1;
 	pthread_t		thread2;
 	pthread_mutex_t	mutex; */
 	
 	set_gen_var(&gen_var, argc, argv);
+	printf("I have received %d nr of philosophers, %d, time to die, %d time to eat and %d time to sleep\n", gen_var.nr_phil, gen_var.t_die, gen_var.t_eat, gen_var.t_sleep);
+	pthread_mutex_init(&gen_var.pr_mutex, NULL);
 	gettimeofday(&gen_var.time, NULL);
-	pthread_mutex_init(&gen_var.print_right, NULL);
 	gen_var.end = 0;
-	phil_list = release_the_phils(&gen_var);
+	phil_list = setup_phils(&gen_var);
 	while(1)
 	{
 		check_phils(phil_list, &gen_var);
-		usleep(gen_var.nr_of_phil);
+		//usleep(gen_var.nr_of_phil);
+		no_usleep(&gen_var.time, 10, gen_var.nr_phil);
 	}
 /* 	printf("Hi there world, I'm philo and I am going to create a new thread\n");
 	if (pthread_mutex_init(&mutex, NULL) != 0)

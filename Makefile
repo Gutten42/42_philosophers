@@ -6,7 +6,7 @@
 #    By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/06 14:55:20 by vguttenb          #+#    #+#              #
-#    Updated: 2022/04/14 22:04:55 by vgutten          ###   ########.fr        #
+#    Updated: 2022/04/19 11:39:32 by vgutten          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,11 @@ THFLAG = -pthread
 SRCS = philo.c \
 		philo_utils.c \
 		get_time.c \
-		release_the_phils.c \
 		set_gen_var.c \
 		phil_func_log_nou.c \
 		log_state.c \
-		no_usleep.c
+		no_usleep.c \
+		setup_phils.c
 
 OBJS = $(SRCS:.c=.o)
 

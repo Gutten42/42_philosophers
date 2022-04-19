@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   release_the_phils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:31:50 by vgutten           #+#    #+#             */
-/*   Updated: 2022/04/18 16:41:15 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/18 18:34:26 by vgutten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ t_phill	*release_the_phils(t_gen *gen_var)
 	iter->next = first;
 	while (1)
 	{
-		if (first->index % 2)
+/* 		if (first->index % 2)
 			pthread_create(&first->mind, NULL, leftie_phil, first);
 		else
-			pthread_create(&first->mind, NULL, rightie_phil, first);
-		// if (first->index % 2 == 0)
-		// 	usleep(100);
+			pthread_create(&first->mind, NULL, rightie_phil, first); */
+/* 		if (first->index % 2 == 0)
+		 	usleep(100); */
 		pthread_create(&first->mind, NULL, leftie_phil, first);
 		first = first->next;
 		if (first->index == 1)

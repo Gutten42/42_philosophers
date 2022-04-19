@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 14:53:33 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/18 16:11:37 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/19 11:57:08 by vgutten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,34 +27,41 @@
 
 typedef struct s_gen
 {
-	struct timeval	time;
-	pthread_mutex_t	print_right;
-	int				nr_of_phil;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
+	int				nr_phil;
+	int				t_die;
+	int				t_eat;
+	int				t_sleep;
 	int				max_meals;
 	char			end;
+	pthread_mutex_t	pr_mutex;
+	struct timeval	time;
 }				t_gen;
 
-typedef struct s_phill
+typedef struct s_phil
 {
-	pthread_t		mind;
 	int				index;
 	int				last_meal;
 	int				nr_meals;
-	pthread_mutex_t	l_fork;
-	t_gen			*gen_var;
-	struct s_phill	*next;
-}				t_phill;
+	int				max_meals;
+	int				t_eat;
+	int				t_sleep;
+	char			*end;
+	struct timeval	*time;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*pr_mutex;
+	pthread_t		mind;
+	pthread_mutex_t	fork;
+	struct s_phil	*next;
+}				t_phil;
 
-int		get_time(struct timeval *time);
-t_phill	*release_the_phils(t_gen *gen_var);
+int	get_time(struct timeval *time);
+t_phil	*setup_phils(t_gen *gen_var);
 void	set_gen_var(t_gen *gen_var, int argc, char **argv);
 void	*leftie_phil(void *data);
-void	*rightie_phil(void *data);
+/* void	*rightie_phil(void *data); */
 void	log_state(pthread_mutex_t *print_right, int timestamp, int index, char *state);
-void	no_usleep(int wait, int cadency, struct timeval *time);
+void	no_usleep(struct timeval *time, int wait, int cadency);
 
 int		ft_isdigit(int value);
 void	ft_putnbr_fd(int n, int fd);

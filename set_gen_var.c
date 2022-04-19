@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_gen_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:18 by vgutten           #+#    #+#             */
-/*   Updated: 2022/04/18 16:12:13 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/19 12:04:37 by vgutten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,19 @@ void	set_gen_var(t_gen *gen_var, int argc, char **argv)
 {
 	char	*err;
 
+	printf("I have received %s nr of philosophers, %s, time to die, %s time to eat and %s time to sleep\n", argv[1], argv[2], argv[3], argv[4]);
 	err = NULL;
 	if (argc < 5)
 		err = "not enough arguments provided";
 	else if (argc > 6)
 		err = "too many arguments provided";
-	else if (!err && !set_var(&gen_var->nr_of_phil, argv[1]))
+	else if (!err && !set_var(&gen_var->nr_phil, argv[1]))
 		err = "incompatible number of philosophers provided";
-	else if (!err && !set_var(&gen_var->time_to_die, argv[2]))
+	else if (!err && !set_var(&gen_var->t_die, argv[2]))
 		err = "incompatible time to die provided";
-	else if (!err && !set_var(&gen_var->time_to_eat, argv[3]))
+	else if (!err && !set_var(&gen_var->t_eat, argv[3]))
 		err = "incompatible time to eat provided";
-	else if (!err && !set_var(&gen_var->time_to_sleep, argv[4]))
+	else if (!err && !set_var(&gen_var->t_sleep, argv[4]))
 		err = "incompatible time to sleep provided";
 	else if (argc > 5 && !err && !set_var(&gen_var->max_meals, argv[5]))
 		err = "incompatible number of times each philosopher must eat provided";
