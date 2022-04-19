@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 14:53:33 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/19 11:57:08 by vgutten          ###   ########.fr       */
+/*   Updated: 2022/04/19 17:01:37 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_gen
 typedef struct s_phil
 {
 	int				index;
+	int				nr_phil;
 	int				last_meal;
 	int				nr_meals;
 	int				max_meals;

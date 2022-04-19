@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_phils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 11:00:29 by vgutten           #+#    #+#             */
-/*   Updated: 2022/04/19 11:59:55 by vgutten          ###   ########.fr       */
+/*   Updated: 2022/04/19 17:02:09 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_phil	*create_phil(t_gen *gen_var, int ind)
 
 	node = (t_phil *)malloc(sizeof(t_phil));
 	node->index = ind;
+	node->nr_phil = gen_var->nr_phil;
 	node->nr_meals = 0;
 	node->max_meals = gen_var->max_meals;
 	node->t_eat = gen_var->t_eat;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:03:52 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/19 12:43:01 by vgutten          ###   ########.fr       */
+/*   Updated: 2022/04/19 20:53:28 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,43 @@ void	*thread_wt(void *mutex)
 	return (NULL);
 } */
 
+void	nice_exit(t_gen *gen_var, t_phil *phil_list)
+{
+	int		first;
+	t_phil	*next;
+	
+	pthread_mutex_destroy(&gen_var->pr_mutex);
+	first = phil_list->index;
+	while (gen_var->nr_phil > 0)
+	{
+		pthread_mutex_destroy(&phil_list->fork);
+		pthread_detach(phil_list->mind);
+		next = phil_list->next;
+		free(phil_list);
+		phil_list = next;
+		gen_var->nr_phil -= 1;
+	}
+	exit(0);
+}
+
 void	check_phils(t_phil *phil_list, t_gen *gen_var)
 {
 	int	ima;
 
+	ima = get_time(&gen_var->time) - gen_var->t_die;
 	while(1)
 	{
-		ima = get_time(&gen_var->time);
-		if (phil_list->last_meal < ima - gen_var->t_die)
+		if (phil_list->last_meal < ima)
 		{
 			gen_var->end = 1;
-			pthread_mutex_unlock(&gen_var->pr_mutex);
-			pthread_mutex_destroy(&gen_var->pr_mutex);
-			printf("%d %d died\n", ima, phil_list->index);
-			usleep(1000000);
+			log_state(&gen_var->pr_mutex, get_time(&gen_var->time), phil_list->index, " died");
+			nice_exit(gen_var, phil_list);
+			// pthread_mutex_unlock(&gen_var->pr_mutex);
+			// pthread_mutex_destroy(&gen_var->pr_mutex);
+			// printf("%d %d died\n", ima, phil_list->index);
+			// usleep(1000000);
 			//pthread_join(phil_list->mind, NULL);
-			exit(0);
+			//exit(0);
 		}
 		phil_list = phil_list->next;
 		if (phil_list->index == 1)
@@ -81,7 +102,7 @@ int	main(int argc, char **argv)
 	{
 		check_phils(phil_list, &gen_var);
 		//usleep(gen_var.nr_of_phil);
-		no_usleep(&gen_var.time, 10, gen_var.nr_phil);
+		no_usleep(&gen_var.time, 1, gen_var.nr_phil);
 	}
 /* 	printf("Hi there world, I'm philo and I am going to create a new thread\n");
 	if (pthread_mutex_init(&mutex, NULL) != 0)

@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+         #
+#    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/06 14:55:20 by vguttenb          #+#    #+#              #
-#    Updated: 2022/04/19 11:39:32 by vgutten          ###   ########.fr        #
+#    Updated: 2022/04/19 20:21:12 by vguttenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
-THFLAG = -pthread
+THFLAG = -pthread #-fsanitize=thread
 
 SRCS = philo.c \
 		philo_utils.c \
