@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_gen_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgutten <vgutten@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:18 by vgutten           #+#    #+#             */
-/*   Updated: 2022/04/19 12:04:37 by vgutten          ###   ########.fr       */
+/*   Updated: 2022/04/21 15:37:06 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	set_gen_var(t_gen *gen_var, int argc, char **argv)
 {
 	char	*err;
 
-	printf("I have received %s nr of philosophers, %s, time to die, %s time to eat and %s time to sleep\n", argv[1], argv[2], argv[3], argv[4]);
 	err = NULL;
 	if (argc < 5)
 		err = "not enough arguments provided";

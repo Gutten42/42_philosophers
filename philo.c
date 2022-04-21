@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:03:52 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/19 20:53:28 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:30:22 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,37 +40,39 @@ void	*thread_wt(void *mutex)
 	return (NULL);
 } */
 
-void	nice_exit(t_gen *gen_var, t_phil *phil_list)
+void	nice_exit(t_gen *gen_var)
 {
-	int		first;
-	t_phil	*next;
+	int		ind;
 	
-	pthread_mutex_destroy(&gen_var->pr_mutex);
-	first = phil_list->index;
-	while (gen_var->nr_phil > 0)
+	ind = 0;
+	while (ind < gen_var->nr_phil)
 	{
-		pthread_mutex_destroy(&phil_list->fork);
-		pthread_detach(phil_list->mind);
-		next = phil_list->next;
-		free(phil_list);
-		phil_list = next;
-		gen_var->nr_phil -= 1;
+		pthread_mutex_destroy(&gen_var->forks[ind]);
+		pthread_detach(gen_var->minds[ind]);
+		ind++;
 	}
+	free(gen_var->forks);
+	free(gen_var->minds);
+	free(gen_var->last_meals);
+	free(gen_var->nr_meals);
+	free(gen_var->input);
 	exit(0);
 }
 
-void	check_phils(t_phil *phil_list, t_gen *gen_var)
+void	check_phils(t_gen *gen_var)
 {
 	int	ima;
+	int	ind;
 
 	ima = get_time(&gen_var->time) - gen_var->t_die;
-	while(1)
+	ind = 0;
+	while(ind < gen_var->nr_phil)
 	{
-		if (phil_list->last_meal < ima)
+		if (gen_var->last_meals[ind] < ima)
 		{
 			gen_var->end = 1;
-			log_state(&gen_var->pr_mutex, get_time(&gen_var->time), phil_list->index, " died");
-			nice_exit(gen_var, phil_list);
+			printf("%d %d died\n", get_time(&gen_var->time), ind + 1);
+			nice_exit(gen_var);
 			// pthread_mutex_unlock(&gen_var->pr_mutex);
 			// pthread_mutex_destroy(&gen_var->pr_mutex);
 			// printf("%d %d died\n", ima, phil_list->index);
@@ -78,31 +80,41 @@ void	check_phils(t_phil *phil_list, t_gen *gen_var)
 			//pthread_join(phil_list->mind, NULL);
 			//exit(0);
 		}
-		phil_list = phil_list->next;
-		if (phil_list->index == 1)
-			break ;
+		ind++;
 	}
+}
+
+void	set_gen_arrays(t_gen *gen_var)
+{
+	int	ind;
+	
+	gen_var->last_meals = (int *)malloc(sizeof(int) * gen_var->nr_phil);
+	gen_var->nr_meals = (int *)malloc(sizeof(int) * gen_var->nr_phil);
+	gen_var->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * gen_var->nr_phil);
+	gen_var->minds = (pthread_t *)malloc(sizeof(pthread_t) * gen_var->nr_phil);
+	ind = 0;
+	while (ind < gen_var->nr_phil)
+		pthread_mutex_init(&gen_var->forks[ind++], NULL);
 }
 
 int	main(int argc, char **argv)
 {
 	t_gen			gen_var;
-	t_phil			*phil_list;
 /* 	pthread_t		thread1;
 	pthread_t		thread2;
 	pthread_mutex_t	mutex; */
 	
 	set_gen_var(&gen_var, argc, argv);
+	set_gen_arrays(&gen_var);
 	printf("I have received %d nr of philosophers, %d, time to die, %d time to eat and %d time to sleep\n", gen_var.nr_phil, gen_var.t_die, gen_var.t_eat, gen_var.t_sleep);
-	pthread_mutex_init(&gen_var.pr_mutex, NULL);
 	gettimeofday(&gen_var.time, NULL);
 	gen_var.end = 0;
-	phil_list = setup_phils(&gen_var);
+	setup_phils(&gen_var);
 	while(1)
 	{
-		check_phils(phil_list, &gen_var);
-		//usleep(gen_var.nr_of_phil);
 		no_usleep(&gen_var.time, 1, gen_var.nr_phil);
+		check_phils(&gen_var);
+		//usleep(gen_var.nr_of_phil);
 	}
 /* 	printf("Hi there world, I'm philo and I am going to create a new thread\n");
 	if (pthread_mutex_init(&mutex, NULL) != 0)

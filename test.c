@@ -3,26 +3,28 @@
 
 void	*threadie(void *data)
 {
-	int	ret;
+	int	*ret;
+	int	reps;
 	
-	ret = pthread_mutex_lock((pthread_mutex_t *)data);
-	ft_putnbr_fd(ret, STDERR_FILENO);
+	ret = (int *)data;
+	reps = 1000000000;
+	while (reps-- > 0)
+		*ret += 1;
 	return (NULL);
 }
 
 int	main()
 {
-	pthread_mutex_t	mutex;
+	int				value;
+	int				new_val;
+	int				old_val;
 	pthread_t		th;
 
-	pthread_mutex_init(&mutex, NULL);
-	pthread_mutex_lock(&mutex);
-	ft_putendl_fd("A", STDERR_FILENO);
-	pthread_mutex_unlock(&mutex);
-	pthread_mutex_destroy(&mutex);
-	pthread_create(&th, NULL, threadie, &mutex);
-	//ft_putnbr_fd(pthread_mutex_lock(&mutex), STDERR_FILENO);
-	ft_putendl_fd("B", STDERR_FILENO);
-	pthread_join(th, NULL);
-	ft_putendl_fd("C", STDERR_FILENO);
+	value = 0;
+	pthread_create(&th, NULL, threadie, &value);
+	while (new_val < 1000000000)
+	{
+		new_val = value;
+		printf("%d\n", new_val);
+	}
 }

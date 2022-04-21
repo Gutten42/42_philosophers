@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 14:53:33 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/19 17:01:37 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:08:36 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 # include <limits.h>
 # include <sys/time.h>
 
-# define THINKING " is thinking"
-# define EATING " is eating"
-# define SLEEPING " is sleeping"
-# define FORK " has taken a fork"
+# define THINKING "is thinking"
+# define EATING "is eating"
+# define SLEEPING "is sleeping"
+# define FORK "has taken a fork"
 
 typedef struct s_gen
 {
@@ -33,34 +33,40 @@ typedef struct s_gen
 	int				t_sleep;
 	int				max_meals;
 	char			end;
-	pthread_mutex_t	pr_mutex;
+	int				*last_meals;
+	int				*nr_meals;
+	pthread_mutex_t	*forks;
+	pthread_t		*minds;
 	struct timeval	time;
+	struct s_input	*input;
 }				t_gen;
 
 typedef struct s_phil
 {
 	int				index;
 	int				nr_phil;
-	int				last_meal;
-	int				nr_meals;
-	int				max_meals;
+	int				*last_meal;
+	int				*nr_meals;
 	int				t_eat;
 	int				t_sleep;
 	char			*end;
 	struct timeval	*time;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*pr_mutex;
-	pthread_t		mind;
-	pthread_mutex_t	fork;
-	struct s_phil	*next;
 }				t_phil;
 
-int	get_time(struct timeval *time);
-t_phil	*setup_phils(t_gen *gen_var);
+typedef struct s_input
+{
+	int				index;
+	struct s_gen	*gen_var;
+}				t_input;
+
+
+
+int		get_time(struct timeval *time);
+void	setup_phils(t_gen *gen_var);
 void	set_gen_var(t_gen *gen_var, int argc, char **argv);
 void	*leftie_phil(void *data);
-/* void	*rightie_phil(void *data); */
 void	log_state(pthread_mutex_t *print_right, int timestamp, int index, char *state);
 void	no_usleep(struct timeval *time, int wait, int cadency);
 
