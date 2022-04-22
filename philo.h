@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 14:53:33 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/21 16:08:36 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/22 15:53:00 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 typedef struct s_gen
 {
 	int				nr_phil;
+	int				t_start;
 	int				t_die;
 	int				t_eat;
 	int				t_sleep;
@@ -49,6 +50,7 @@ typedef struct s_phil
 	int				*nr_meals;
 	int				t_eat;
 	int				t_sleep;
+	int				t_start;
 	char			*end;
 	struct timeval	*time;
 	pthread_mutex_t	*r_fork;
@@ -63,7 +65,7 @@ typedef struct s_input
 
 
 
-int		get_time(struct timeval *time);
+int		get_time(struct timeval *time, int t_start);
 void	setup_phils(t_gen *gen_var);
 void	set_gen_var(t_gen *gen_var, int argc, char **argv);
 void	*leftie_phil(void *data);
