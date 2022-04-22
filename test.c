@@ -3,26 +3,47 @@
 
 void	*threadie(void *data)
 {
-	int	ret;
-	
-	ret = pthread_mutex_lock((pthread_mutex_t *)data);
-	ft_putnbr_fd(ret, STDERR_FILENO);
+	int	*value;
+
+	value = (int *)data;
+	while (1)
+	{
+		if (*value == 120)
+		{
+			*value += 1;
+			*value += 1;
+			*value += 1;
+			*value += 1;
+			*value += 1;
+		}
+		else
+		{
+			*value -= 1;
+			*value -= 1;
+			*value -= 1;
+			*value -= 1;
+			*value -= 1;
+		}
+	}
 	return (NULL);
 }
 
 int	main()
 {
-	pthread_mutex_t	mutex;
+	int				value;
+	int				check;
 	pthread_t		th;
 
-	pthread_mutex_init(&mutex, NULL);
-	pthread_mutex_lock(&mutex);
-	ft_putendl_fd("A", STDERR_FILENO);
-	pthread_mutex_unlock(&mutex);
-	pthread_mutex_destroy(&mutex);
-	pthread_create(&th, NULL, threadie, &mutex);
-	//ft_putnbr_fd(pthread_mutex_lock(&mutex), STDERR_FILENO);
-	ft_putendl_fd("B", STDERR_FILENO);
+	value = 120;
+	pthread_create(&th, NULL, threadie, &value);
+	while (1)
+	{
+		check = value;
+		if (check < 120 || check > 125)
+		{
+			printf("Warning! The value changed to %d\n", check);
+			exit(0);
+		}
+	}
 	pthread_join(th, NULL);
-	ft_putendl_fd("C", STDERR_FILENO);
 }
