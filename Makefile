@@ -6,7 +6,7 @@
 #    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/06 14:55:20 by vguttenb          #+#    #+#              #
-#    Updated: 2022/04/22 19:30:21 by vguttenb         ###   ########.fr        #
+#    Updated: 2022/04/25 18:05:03 by vguttenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,9 @@ all: $(NAME)
 $(NAME): $(OBJS) $(CMN_OBJS) Makefile
 	$(CC) $(THFLAG) $(CFLAGS) -o $(NAME) $(OBJS) $(CMN_OBJS)
 
-bonus: $(BNS_OBJS) $(CMN_OBJS) Makefile
+bonus: $(BNS_NAME)
+
+$(BNS_NAME): $(BNS_OBJS) $(CMN_OBJS) Makefile
 	$(CC) $(CFLAGS) -o $(BNS_NAME) $(BNS_OBJS) $(CMN_OBJS)
 
 test: $(NAME)

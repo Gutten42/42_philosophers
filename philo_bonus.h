@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 14:53:33 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/22 19:32:06 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:56:45 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <sys/time.h>
 # include <fcntl.h>
 # include <semaphore.h>
+# include <signal.h>
+
 
 # define THINKING "is thinking"
 # define EATING "is eating"
@@ -35,10 +37,12 @@ typedef struct s_gen
 	int				t_eat;
 	int				t_sleep;
 	int				max_meals;
-	char			end;
-	int				*last_meals;
-	int				*nr_meals;
+	//char			end;
+	// int				*last_meals;
+	// int				*nr_meals;
 	sem_t			*forks;
+	sem_t			*bowl;
+	sem_t			*sat;
 	pid_t			*minds;
 	struct timeval	time;
 }				t_gen;
@@ -48,18 +52,22 @@ typedef struct s_phil
 	int				index;
 	int				nr_phil;
 	int				*last_meal;
-	int				*nr_meals;
+	int				nr_meals;
+	int				max_meals;
 	int				t_eat;
 	int				t_sleep;
 	int				t_start;
-	char			*end;
 	sem_t			*forks;
+	sem_t			*bowl;
+	sem_t			*sat;
 	struct timeval	*time;
 }				t_phil;
 
 typedef struct s_input
 {
 	int				index;
+	int				*last_meal;
+	int				*nr_meals;
 	struct s_gen	*gen_var;
 }				t_input;
 
