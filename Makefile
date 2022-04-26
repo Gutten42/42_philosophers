@@ -6,7 +6,7 @@
 #    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/06 14:55:20 by vguttenb          #+#    #+#              #
-#    Updated: 2022/04/25 18:05:03 by vguttenb         ###   ########.fr        #
+#    Updated: 2022/04/26 16:02:17 by vguttenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRCS = philo.c \
 CMN = get_time.c \
 		philo_utils.c \
 		no_usleep.c \
-		set_gen_var.c
+		set_gen_var.c \
+		log_state.c
 
 BNS = philo_bonus.c \
 		phil_func_bonus.c 

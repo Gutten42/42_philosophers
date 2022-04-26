@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 14:53:33 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/25 17:56:45 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:11:01 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 # include <semaphore.h>
 # include <signal.h>
 
-
 # define THINKING "is thinking"
 # define EATING "is eating"
 # define SLEEPING "is sleeping"
 # define FORK "has taken a fork"
+# define MAX_PHIL 200
 
 typedef struct s_gen
 {
@@ -37,9 +37,6 @@ typedef struct s_gen
 	int				t_eat;
 	int				t_sleep;
 	int				max_meals;
-	//char			end;
-	// int				*last_meals;
-	// int				*nr_meals;
 	sem_t			*forks;
 	sem_t			*bowl;
 	sem_t			*sat;
@@ -71,19 +68,14 @@ typedef struct s_input
 	struct s_gen	*gen_var;
 }				t_input;
 
-
 int		get_time(struct timeval *time, int t_start);
 void	set_gen_var(t_gen *gen_var, int argc, char **argv);
 void	phil_bonus_sp(int ind, t_gen *gen_var);
 void	no_usleep(struct timeval *time, int wait, int cadency);
 
 int		ft_isdigit(int value);
-void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
-void	ft_bzero(void *memdir, size_t len);
-void	ft_putchar_fd(char c, int fd);
-char	*ft_itoa(int n);
 size_t	ft_strlen(const char *str);
 
 #endif

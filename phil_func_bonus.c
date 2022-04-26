@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:35:02 by vgutten           #+#    #+#             */
-/*   Updated: 2022/04/25 17:57:10 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:21:42 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,6 @@ void	*leftie_phil(void *data)
 	t_phil	info;
 
 	set_info(&info, data);
-	// if (info.index % 2 == 0)
-	// 	usleep(100);
-	printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, "is born");
 	while (1)
 	{
 		sem_wait(info.bowl);

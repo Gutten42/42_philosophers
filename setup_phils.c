@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 11:00:29 by vgutten           #+#    #+#             */
-/*   Updated: 2022/04/21 16:17:36 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:04:57 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	setup_phils(t_gen *gen_var)
 
 	gen_var->input = (t_input *)malloc(sizeof(t_input) * gen_var->nr_phil);
 	ind = 0;
-	while(ind < gen_var->nr_phil)
+	while (ind < gen_var->nr_phil)
 	{
 		gen_var->input[ind].index = ind;
 		gen_var->input[ind].gen_var = gen_var;
@@ -27,7 +27,8 @@ void	setup_phils(t_gen *gen_var)
 	ind = 0;
 	while (ind < gen_var->nr_phil)
 	{
-		pthread_create(&gen_var->minds[ind], NULL, leftie_phil, &gen_var->input[ind]);
+		pthread_create(&gen_var->minds[ind], NULL, \
+						leftie_phil, &gen_var->input[ind]);
 		ind++;
 	}
 }

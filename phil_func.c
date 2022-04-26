@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:35:02 by vgutten           #+#    #+#             */
-/*   Updated: 2022/04/22 18:37:40 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/26 19:02:09 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,20 @@ void	set_info(t_phil *info, t_input *input)
 	info->end = &input->gen_var->end;
 	info->time = &input->gen_var->time;
 	info->l_fork = &input->gen_var->forks[input->index];
+	info->print = &input->gen_var->print;
 	if (info->index < input->gen_var->nr_phil)
 		info->r_fork = &input->gen_var->forks[info->index];
 	else
 		info->r_fork = &input->gen_var->forks[0];
+}
+
+void	*thread_exit(t_phil *info, int locked)
+{
+	if (locked > 1)
+		pthread_mutex_unlock(info->r_fork);
+	if (locked)
+		pthread_mutex_unlock(info->l_fork);
+	return (NULL);
 }
 
 void	*leftie_phil(void *data)
@@ -79,35 +89,28 @@ void	*leftie_phil(void *data)
 
 	set_info(&info, data);
 	if (info.index % 2 == 0)
-		usleep(100);
-	//printf("%d %d %s\n", get_time(info.time), info.index, "is born");
-	while (!*info.end)
+		usleep(400);
+	while (1)
 	{
 		pthread_mutex_lock(info.l_fork);
-		if (*info.end)
-			break ;
-		printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, FORK);
+		if (!log_state(&info, 1))
+			return(thread_exit(&info, 1));
 		pthread_mutex_lock(info.r_fork);
-		if (*info.end)
-			break ;
-		printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, FORK);
+		if (!log_state(&info, 1))
+			return(thread_exit(&info, 2));
 		*info.last_meal = get_time(info.time, info.t_start);
-		if (*info.end)
-			break ;
-		printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, EATING);
+		if (!log_state(&info, 2))
+			return(thread_exit(&info, 2));
 		no_usleep(info.time, info.t_eat, info.nr_phil);
 		*info.nr_meals += 1;
 		pthread_mutex_unlock(info.l_fork);
 		pthread_mutex_unlock(info.r_fork);
-		if (*info.end)
-			break ;
-		printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, SLEEPING);
+		if (!log_state(&info, 3))
+			return(thread_exit(&info, 0));
 		no_usleep(info.time, info.t_sleep, info.nr_phil);
-		if (*info.end)
-			break ;
-		printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, THINKING);
+		if (!log_state(&info, 4))
+			return(thread_exit(&info, 0));
 	}
-	return (NULL);
 }
 
 /* void	*rightie_phil(void *data)
