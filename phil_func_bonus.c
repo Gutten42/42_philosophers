@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:35:02 by vgutten           #+#    #+#             */
-/*   Updated: 2022/04/27 13:28:17 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:33:35 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,10 @@ void	*leftie_phil(void *data)
 	{
 		sem_wait(info.bowl);
 		sem_wait(info.forks);
-		// printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, FORK);
 		log_state_bonus(&info, 1);
 		sem_wait(info.forks);
-		// printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, FORK);
 		log_state_bonus(&info, 1);
 		*info.last_meal = get_time(info.time, info.t_start);
-		// printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, EATING);
 		log_state_bonus(&info, 2);
 		no_usleep(info.time, info.t_eat, info.nr_phil);
 		info.nr_meals++;
@@ -54,11 +51,9 @@ void	*leftie_phil(void *data)
 		sem_post(info.forks);
 		sem_post(info.forks);
 		sem_post(info.bowl);
-		// printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, SLEEPING);
 		log_state_bonus(&info, 3);
 		no_usleep(info.time, info.t_sleep, info.nr_phil);
 		log_state_bonus(&info, 4);
-		// printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, THINKING);
 	}
 	return (NULL);
 }

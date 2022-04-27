@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:03:52 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/27 11:26:54 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:35:29 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	nice_exit(t_gen *gen_var, int time, int index)
 	free(gen_var->last_meals);
 	free(gen_var->nr_meals);
 	free(gen_var->input);
-	exit(0);
 }
 
 void	check_phils(t_gen *gen_var)
@@ -98,16 +97,19 @@ int	main(int argc, char **argv)
 	setup_phils(&gen_var);
 	if (gen_var.max_meals)
 	{
-		while (1)
+		while (!gen_var.end)
 		{
 			no_usleep(&gen_var.time, 1, gen_var.nr_phil);
 			check_phils(&gen_var);
 			check_max_meals(&gen_var);
 		}
 	}
-	while (1)
+	else
 	{
-		no_usleep(&gen_var.time, 1, gen_var.nr_phil);
-		check_phils(&gen_var);
+		while (!gen_var.end)
+		{
+			no_usleep(&gen_var.time, 1, gen_var.nr_phil);
+			check_phils(&gen_var);
+		}
 	}
 }
