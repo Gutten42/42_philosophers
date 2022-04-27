@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:35:02 by vgutten           #+#    #+#             */
-/*   Updated: 2022/04/26 15:21:42 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/27 13:28:17 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	set_info(t_phil *info, t_input *input)
 	info->forks = input->gen_var->forks;
 	info->bowl = input->gen_var->bowl;
 	info->sat = input->gen_var->sat;
+	info->print = input->gen_var->print;
 	info->time = &input->gen_var->time;
 }
 
@@ -38,11 +39,14 @@ void	*leftie_phil(void *data)
 	{
 		sem_wait(info.bowl);
 		sem_wait(info.forks);
-		printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, FORK);
+		// printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, FORK);
+		log_state_bonus(&info, 1);
 		sem_wait(info.forks);
-		printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, FORK);
+		// printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, FORK);
+		log_state_bonus(&info, 1);
 		*info.last_meal = get_time(info.time, info.t_start);
-		printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, EATING);
+		// printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, EATING);
+		log_state_bonus(&info, 2);
 		no_usleep(info.time, info.t_eat, info.nr_phil);
 		info.nr_meals++;
 		if (info.nr_meals == info.max_meals)
@@ -50,9 +54,11 @@ void	*leftie_phil(void *data)
 		sem_post(info.forks);
 		sem_post(info.forks);
 		sem_post(info.bowl);
-		printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, SLEEPING);
+		// printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, SLEEPING);
+		log_state_bonus(&info, 3);
 		no_usleep(info.time, info.t_sleep, info.nr_phil);
-		printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, THINKING);
+		log_state_bonus(&info, 4);
+		// printf("[%09d] %d %s\n", get_time(info.time, info.t_start), info.index, THINKING);
 	}
 	return (NULL);
 }

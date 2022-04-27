@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 14:53:33 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/26 15:11:01 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/27 11:48:14 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_gen
 	sem_t			*forks;
 	sem_t			*bowl;
 	sem_t			*sat;
+	sem_t			*print;
 	pid_t			*minds;
 	struct timeval	time;
 }				t_gen;
@@ -57,6 +58,7 @@ typedef struct s_phil
 	sem_t			*forks;
 	sem_t			*bowl;
 	sem_t			*sat;
+	sem_t			*print;
 	struct timeval	*time;
 }				t_phil;
 
@@ -72,6 +74,7 @@ int		get_time(struct timeval *time, int t_start);
 void	set_gen_var(t_gen *gen_var, int argc, char **argv);
 void	phil_bonus_sp(int ind, t_gen *gen_var);
 void	no_usleep(struct timeval *time, int wait, int cadency);
+void	log_state_bonus(t_phil *info, int code);
 
 int		ft_isdigit(int value);
 void	ft_putstr_fd(char *s, int fd);

@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:03:52 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/26 15:14:05 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/27 13:23:24 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,17 @@ void	nice_exit(t_gen *gen_var, int last_pid)
 
 	ind = 0;
 	while (ind < gen_var->nr_phil)
-		kill(gen_var->minds[ind++], SIGTERM);
+		kill(gen_var->minds[ind++], SIGINT);
 	sem_unlink("SEM_PHIL_SAT");
 	sem_unlink("SEM_PHIL_FORKS");
 	sem_unlink("SEM_PHIL_BOWL");
+	sem_unlink("SEM_PHIL_PRINT");
 	ind = 0;
+	no_usleep(&gen_var->time, 2, 100);
 	if (last_pid)
 		while (ind < gen_var->nr_phil)
 			if (gen_var->minds[ind++] == last_pid)
-				printf("[%09d] %d died\n", get_time(&gen_var->time, \
+				printf("[%09d] %03d died\n", get_time(&gen_var->time, \
 						gen_var->t_start), ind);
 	free(gen_var->minds);
 	exit(0);
@@ -39,11 +41,13 @@ void	set_gen_arrays(t_gen *gen_var)
 	sem_unlink("SEM_PHIL_SAT");
 	sem_unlink("SEM_PHIL_FORKS");
 	sem_unlink("SEM_PHIL_BOWL");
+	sem_unlink("SEM_PHIL_PRINT");
 	gen_var->sat = sem_open("SEM_PHIL_SAT", O_CREAT, 0660, 0);
 	gen_var->forks = sem_open("SEM_PHIL_FORKS", O_CREAT, \
 								0660, gen_var->nr_phil);
 	gen_var->bowl = sem_open("SEM_PHIL_BOWL", O_CREAT, 0660, \
 								gen_var->nr_phil / 2 + gen_var->nr_phil % 2);
+	gen_var->print = sem_open("SEM_PHIL_PRINT", O_CREAT, 0660, 1);
 	gen_var->minds = (pid_t *)malloc(sizeof(pid_t) * gen_var->nr_phil);
 	gen_var->t_start = get_time(&gen_var->time, 0);
 	ind = 0;

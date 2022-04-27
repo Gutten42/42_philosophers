@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:03:52 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/26 19:03:33 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/27 11:26:54 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	set_gen_arrays(t_gen *gen_var)
 	gen_var->minds = (pthread_t *)malloc(sizeof(pthread_t) * gen_var->nr_phil);
 	pthread_mutex_init(&gen_var->print, NULL);
 	ind = 0;
+	gen_var->t_start = get_time(&gen_var->time, 0);
 	while (ind < gen_var->nr_phil)
 		pthread_mutex_init(&gen_var->forks[ind++], NULL);
 }
@@ -93,7 +94,6 @@ int	main(int argc, char **argv)
 
 	set_gen_var(&gen_var, argc, argv);
 	set_gen_arrays(&gen_var);
-	gen_var.t_start = get_time(&gen_var.time, 0);
 	gen_var.end = 0;
 	setup_phils(&gen_var);
 	if (gen_var.max_meals)

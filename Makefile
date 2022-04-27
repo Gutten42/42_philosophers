@@ -6,7 +6,7 @@
 #    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/06 14:55:20 by vguttenb          #+#    #+#              #
-#    Updated: 2022/04/26 16:02:17 by vguttenb         ###   ########.fr        #
+#    Updated: 2022/04/27 11:50:02 by vguttenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ CMN = get_time.c \
 		log_state.c
 
 BNS = philo_bonus.c \
-		phil_func_bonus.c 
+		phil_func_bonus.c \
+		log_state_bonus.c
 
 OBJS = $(SRCS:.c=.o)
 
