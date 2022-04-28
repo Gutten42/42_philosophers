@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:33:18 by vgutten           #+#    #+#             */
-/*   Updated: 2022/04/26 15:07:03 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:58:20 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	set_var(int *var, char *value_str, int min, int max)
 	return (1);
 }
 
-void	set_gen_var(t_gen *gen_var, int argc, char **argv)
+int	set_gen_var(t_gen *gen_var, int argc, char **argv)
 {
 	char	*err;
 
@@ -62,8 +62,9 @@ void	set_gen_var(t_gen *gen_var, int argc, char **argv)
 	else if (argc == 5)
 		gen_var->max_meals = 0;
 	if (!err)
-		return ;
+		return (1);
+	gen_var->end = 1;
 	ft_putstr_fd("philo: error: ", STDERR_FILENO);
 	ft_putendl_fd(err, STDERR_FILENO);
-	exit(1);
+	return (0);
 }

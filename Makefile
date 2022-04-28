@@ -6,7 +6,7 @@
 #    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/06 14:55:20 by vguttenb          #+#    #+#              #
-#    Updated: 2022/04/27 11:50:02 by vguttenb         ###   ########.fr        #
+#    Updated: 2022/04/28 20:25:19 by vguttenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,17 +14,17 @@ NAME = philo
 BNS_NAME = philo_bonus
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
-THFLAG = -pthread #-fsanitize=thread
+THFLAG = -pthread -fsanitize=address
 
 SRCS = philo.c \
 		phil_func.c \
-		setup_phils.c
+		setup_phils.c \
+		log_state.c
 
 CMN = get_time.c \
 		philo_utils.c \
 		no_usleep.c \
-		set_gen_var.c \
-		log_state.c
+		set_gen_var.c
 
 BNS = philo_bonus.c \
 		phil_func_bonus.c \

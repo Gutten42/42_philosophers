@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 15:40:56 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/26 16:27:11 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:33:14 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	set_nbr(char *print, int time, int index)
 
 	print[0] = '[';
 	ind = 9;
-	while (ind > 0 )
+	while (ind > 0)
 	{
 		print[ind--] = time % 10 + '0';
 		time /= 10;
@@ -34,8 +34,18 @@ static void	set_nbr(char *print, int time, int index)
 	print[15] = ' ';
 }
 
-static void	set_str(char *print, char *state)
+static void	set_str(char *print, int code)
 {
+	char	*state;
+
+	if (code == 1)
+		state = "has taken a fork";
+	else if (code == 2)
+		state = "is eating";
+	else if (code == 3)
+		state = "is sleeping";
+	else
+		state = "is thinking";
 	while (*state)
 		*print++ = *state++;
 	*print++ = '\n';
@@ -48,7 +58,7 @@ int	log_state(t_phil *info, int code)
 	char	*print;
 
 	if (*info->end)
-		return(0);
+		return (0);
 	pthread_mutex_lock(info->print);
 	if (code > 2)
 		str_size = 11 + 17;
@@ -58,15 +68,9 @@ int	log_state(t_phil *info, int code)
 		str_size = 16 + 17;
 	print = (char *)malloc(sizeof(char) * str_size + 1);
 	set_nbr(print, get_time(info->time, info->t_start), info->index);
-	if (code == 1)
-		set_str(&print[16], "has taken a fork");
-	if (code == 2)
-		set_str(&print[16], "is eating");
-	if (code == 3)
-		set_str(&print[16], "is sleeping");
-	if (code == 4)
-		set_str(&print[16], "is thinking");
+	set_str(&print[16], code);
 	write(STDOUT_FILENO, print, str_size);
 	pthread_mutex_unlock(info->print);
-	return(1);
+	free(print);
+	return (1);
 }

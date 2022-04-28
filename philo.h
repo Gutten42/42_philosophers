@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 14:53:33 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/26 16:27:18 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:54:30 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@
 # include <pthread.h>
 # include <limits.h>
 # include <sys/time.h>
-
-# define FORK "has taken a fork"
-# define EATING "is eating"
-# define SLEEPING "is sleeping"
-# define THINKING "is thinking"
 # define MAX_PHIL 200
 
 typedef struct s_gen
@@ -68,10 +63,8 @@ typedef struct s_input
 
 int		get_time(struct timeval *time, int t_start);
 void	setup_phils(t_gen *gen_var);
-void	set_gen_var(t_gen *gen_var, int argc, char **argv);
+int		set_gen_var(t_gen *gen_var, int argc, char **argv);
 void	*leftie_phil(void *data);
-// void	log_state(pthread_mutex_t *print_right, int timestamp, \
-// 					int index, char *state);
 void	no_usleep(struct timeval *time, int wait, int cadency);
 int		log_state(t_phil *info, int code);
 

@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 15:40:56 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/27 16:30:05 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:34:30 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	set_nbr(char *print, int time, int index)
 
 	print[0] = '[';
 	ind = 9;
-	while (ind > 0 )
+	while (ind > 0)
 	{
 		print[ind--] = time % 10 + '0';
 		time /= 10;
@@ -46,7 +46,7 @@ void	log_state_bonus(t_phil *info, int code)
 {
 	int		str_size;
 	char	*print;
-	
+
 	sem_wait(info->print);
 	if (code > 2)
 		str_size = 11 + 17;
@@ -64,6 +64,7 @@ void	log_state_bonus(t_phil *info, int code)
 		set_str(&print[16], "is sleeping");
 	if (code == 4)
 		set_str(&print[16], "is thinking");
-	printf("%s", print);
+	write(STDOUT_FILENO, print, str_size);
 	sem_post(info->print);
+	free(print);
 }

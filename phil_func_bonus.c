@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 18:35:02 by vgutten           #+#    #+#             */
-/*   Updated: 2022/04/27 16:33:35 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:36:50 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	phil_bonus_sp(int ind, t_gen *gen_var)
 	t_input		input;
 	int			last_meal;
 	int			ima;
-	
+
 	input.gen_var = gen_var;
 	input.index = ind;
 	last_meal = get_time(&gen_var->time, gen_var->t_start);

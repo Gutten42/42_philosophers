@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:03:52 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/27 16:35:29 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/28 16:32:17 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ void	nice_exit(t_gen *gen_var, int time, int index)
 	}
 	ind = 0;
 	while (ind < gen_var->nr_phil)
-	{
 		pthread_join(gen_var->minds[ind++], NULL);
-		//printf("%d exited\n", ind);
-	}
 	ind = 0;
 	while (ind < gen_var->nr_phil)
 		pthread_mutex_destroy(&gen_var->forks[ind++]);
@@ -51,6 +48,7 @@ void	check_phils(t_gen *gen_var)
 		{
 			gen_var->end = 1;
 			nice_exit(gen_var, ima + gen_var->t_die, ind + 1);
+			break ;
 		}
 		ind++;
 	}
@@ -71,7 +69,7 @@ void	check_max_meals(t_gen *gen_var)
 	nice_exit(gen_var, 0, 0);
 }
 
-void	set_gen_arrays(t_gen *gen_var)
+int	set_gen_arrays(t_gen *gen_var)
 {
 	int	ind;
 
@@ -85,16 +83,16 @@ void	set_gen_arrays(t_gen *gen_var)
 	gen_var->t_start = get_time(&gen_var->time, 0);
 	while (ind < gen_var->nr_phil)
 		pthread_mutex_init(&gen_var->forks[ind++], NULL);
+	return (1);
 }
 
 int	main(int argc, char **argv)
 {
 	t_gen			gen_var;
 
-	set_gen_var(&gen_var, argc, argv);
-	set_gen_arrays(&gen_var);
 	gen_var.end = 0;
-	setup_phils(&gen_var);
+	if (set_gen_var(&gen_var, argc, argv) && set_gen_arrays(&gen_var))
+		setup_phils(&gen_var);
 	if (gen_var.max_meals)
 	{
 		while (!gen_var.end)

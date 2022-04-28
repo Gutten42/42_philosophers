@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 14:53:33 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/27 11:48:14 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:55:12 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_input
 }				t_input;
 
 int		get_time(struct timeval *time, int t_start);
-void	set_gen_var(t_gen *gen_var, int argc, char **argv);
+int		set_gen_var(t_gen *gen_var, int argc, char **argv);
 void	phil_bonus_sp(int ind, t_gen *gen_var);
 void	no_usleep(struct timeval *time, int wait, int cadency);
 void	log_state_bonus(t_phil *info, int code);
